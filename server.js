@@ -19,7 +19,7 @@ app.use(
 );
 
 const companyToMail = {
-  "EXION": "sales@ex-ion.com",
+  "EXION": "gzoneonesolution@gmail.com",
   TEST: "zain.baig98@gmail.com",
   GZONE: "gzone@uur.co.in",
 };
@@ -37,7 +37,7 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = async (to, subject, text) => {
   try {
     await transporter.sendMail({
-      from: "sales@ex-ion.com",
+      from: "gzoneonesolution@gmail.com",
       to,
       subject,
       text,
