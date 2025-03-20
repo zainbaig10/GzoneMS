@@ -152,8 +152,6 @@ app.use(
 // Define email mappings
 const companyToMail = {
   EXION: "gzoneonesolution@gmail.com",
-  TEST: "zain.baig98@gmail.com",
-  GZONE: "gzone@uur.co.in",
 };
 
 // Configure SMTP Transporter (Update credentials)
@@ -186,66 +184,22 @@ export const sendEmail = async (to, subject, text) => {
 // API endpoint to send an email
 app.post("/sendEmail", async (req, res) => {
   try {
-    const {
-      businessNames,
-      businessActivities,
-      passportScan,
-      personalPhoto,
-      uaeResidencyCopy,
-      emiratesIdCopy,
-      homeAddressUAE,
-      homeAddressOutsideUAE,
-      motherName,
-      fatherName,
-      email,
-      phoneNumber,
-      maritalStatus,
-      religion,
-      faith,
-    } = req.body;
+    const { email, phoneNumber, message } = req.body;
 
     console.log("📩 Received Data:", req.body);
 
     // Validate required fields
-    if (
-      !businessNames ||
-      !businessActivities ||
-      !passportScan ||
-      !personalPhoto ||
-      !homeAddressUAE ||
-      !homeAddressOutsideUAE ||
-      !motherName ||
-      !fatherName ||
-      !email ||
-      !phoneNumber ||
-      !maritalStatus ||
-      !religion ||
-      !faith
-    ) {
+    if (!email || !phoneNumber || !message) {
       return res.status(400).json({
-        msg: "❌ Missing required fields. Please provide all necessary details.",
+        msg: "❌ Missing required fields. Please provide email, phone number, and message.",
       });
     }
 
-    // Send email to "gzoneonesolution@gmail.com"
+    // Send email
     await sendEmail(
-      companyToMail["EXION"], // Always sends to gzoneonesolution@gmail.com
-      "New Business Registration Request",
-      `Business Names: ${businessNames}\n
-      Business Activities: ${businessActivities}\n
-      Passport Scan: ${passportScan}\n
-      Personal Photo: ${personalPhoto}\n
-      UAE Residency Copy: ${uaeResidencyCopy || "N/A"}\n
-      Emirates ID Copy: ${emiratesIdCopy || "N/A"}\n
-      Home Address (UAE): ${homeAddressUAE}\n
-      Home Address (Outside UAE): ${homeAddressOutsideUAE}\n
-      Mother's Name: ${motherName}\n
-      Father's Name: ${fatherName}\n
-      Email: ${email}\n
-      Phone Number: ${phoneNumber}\n
-      Marital Status: ${maritalStatus}\n
-      Religion: ${religion}\n
-      Faith: ${faith}`
+      companyToMail["EXION"],
+      "New Contact Request",
+      `Email: ${email}\nPhone Number: ${phoneNumber}\nMessage: ${message}`
     );
 
     return res.status(200).json({ msg: "✅ Mail sent successfully" });
