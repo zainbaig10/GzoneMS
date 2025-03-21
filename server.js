@@ -184,12 +184,12 @@ export const sendEmail = async (to, subject, text) => {
 // API endpoint to send an email
 app.post("/sendEmail", async (req, res) => {
   try {
-    const { email, phoneNumber, message } = req.body;
+    const { firstName, lastName, email, phoneNumber, message } = req.body;
 
     console.log("📩 Received Data:", req.body);
 
     // Validate required fields
-    if (!email || !phoneNumber || !message) {
+    if (!firstName|| !lastName|| !email || !phoneNumber || !message) {
       return res.status(400).json({
         msg: "❌ Missing required fields. Please provide email, phone number, and message.",
       });
