@@ -209,6 +209,33 @@ app.post("/sendEmail", async (req, res) => {
   }
 });
 
+app.post("/sendEmailV2", async (req, res) => {
+  try {
+    const { firstName, lastName, email, phoneNumber, message } = req.body;
+
+    console.log("📩 Received Data:", req.body);
+
+    // Validate required fields
+    if (!firstName|| !lastName|| !email || !phoneNumber || !message) {
+      return res.status(400).json({
+        msg: "❌ Missing required fields. Please provide email, phone number, and message.",
+      });
+    }
+
+    // Send email
+    await sendEmail(
+      companyToMail["EXION"],
+      "New Contact Request",
+      `Email: ${email}\nPhone Number: ${phoneNumber}\nMessage: ${message}`
+    );
+
+    return res.status(200).json({ msg: "✅ Mail sent successfully" });
+  } catch (error) {
+    console.error("❌ Error:", error.message);
+    return res.status(500).json({ msg: "❌ Error while sending mail" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`🚀 Server is running on http://localhost:${port}`);
 });
